@@ -17,6 +17,8 @@ defmodule PoorManRedisWeb.ChannelCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL.Sandbox
+
   using do
     quote do
       # Import conveniences for testing with channels
@@ -28,10 +30,10 @@ defmodule PoorManRedisWeb.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(PoorManRedis.Repo)
+    :ok = Sandbox.checkout(PoorManRedis.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(PoorManRedis.Repo, {:shared, self()})
+      Sandbox.mode(PoorManRedis.Repo, {:shared, self()})
     end
 
     :ok

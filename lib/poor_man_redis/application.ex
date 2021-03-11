@@ -11,7 +11,8 @@ defmodule PoorManRedis.Application do
       # Start the Ecto repository
       PoorManRedis.Repo,
       # Start the endpoint when the application starts
-      PoorManRedisWeb.Endpoint
+      PoorManRedisWeb.Endpoint,
+      PoorManRedis.Storage
       # Starts a worker by calling: PoorManRedis.Worker.start_link(arg)
       # {PoorManRedis.Worker, arg},
     ]
