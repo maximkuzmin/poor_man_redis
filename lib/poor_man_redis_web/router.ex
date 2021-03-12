@@ -17,6 +17,10 @@ defmodule PoorManRedisWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    get "/storage/:key", StorageController, :get
+    post "/storage/:key", StorageController, :put
+    delete "/storage/:key", StorageController, :delete
   end
 
   # Other scopes may use custom stacks.
