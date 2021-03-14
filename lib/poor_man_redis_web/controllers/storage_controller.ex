@@ -5,6 +5,7 @@ defmodule PoorManRedisWeb.StorageController do
   use PoorManRedisWeb, :controller
 
   alias PoorManRedis.Storage
+  alias PoorManRedis.Storage.{Delete, Put}
 
   def get(conn, %{"key" => key}) do
     result = Storage.get(key)
@@ -12,12 +13,12 @@ defmodule PoorManRedisWeb.StorageController do
   end
 
   def put(conn, %{"key" => key, "value" => value, "ttl" => ttl}) do
-    Storage.put(key, value, ttl)
+    Put.call(key, value, ttl)
     |> render_ok_or_error(conn)
   end
 
   def put(conn, %{"key" => key, "value" => value}) do
-    Storage.put(key, value)
+    Put.call(key, value)
     |> render_ok_or_error(conn)
   end
 
@@ -34,7 +35,7 @@ defmodule PoorManRedisWeb.StorageController do
 
   def delete(conn, %{"key" => key}) do
     key
-    |> Storage.delete()
+    |> Delete.call()
     |> render_ok_or_error(conn)
   end
 
