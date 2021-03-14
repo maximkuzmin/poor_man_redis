@@ -3,6 +3,7 @@ defmodule PoorManRedis.Storage.DeleteIfStale do
   Handles logic of delete if stale Storage action. Informs websocket about key state if it was deleted
   """
   alias PoorManRedis.Storage
+  alias PoorManRedisWeb.Endpoint
 
   @spec call(String.t()) :: :ok
   def call(key) do
@@ -20,5 +21,7 @@ defmodule PoorManRedis.Storage.DeleteIfStale do
     :ok
   end
 
-  defp inform_websocket(_key), do: :noop
+  defp inform_websocket(key) do
+    Endpoint.broadcast("key:#{key}", "was deleted after expiration", %{})
+  end
 end

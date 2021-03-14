@@ -3,6 +3,7 @@ defmodule PoorManRedis.Storage.Delete do
   Handles deletion from Storage in the application
   """
   alias PoorManRedis.Storage
+  alias PoorManRedisWeb.Endpoint
 
   @spec call(String.t()) :: :ok
   def call(key) do
@@ -12,5 +13,7 @@ defmodule PoorManRedis.Storage.Delete do
     :ok
   end
 
-  defp inform_websocket(_key), do: :noop
+  defp inform_websocket(key) do
+    Endpoint.broadcast("key:#{key}", "was deleted", %{})
+  end
 end

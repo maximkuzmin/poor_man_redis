@@ -1,8 +1,8 @@
-defmodule PoorManRedisWeb.UserSocket do
+defmodule PoorManRedisWeb.StorageSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", PoorManRedisWeb.RoomChannel
+  channel "key:*", PoorManRedisWeb.KeyChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
