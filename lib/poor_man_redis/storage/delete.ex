@@ -14,6 +14,6 @@ defmodule PoorManRedis.Storage.Delete do
   end
 
   defp inform_websocket(key) do
-    Endpoint.broadcast("key:#{key}", "was deleted", %{})
+    Endpoint.broadcast("key:#{key}", "Was deleted", %{})
   end
 end

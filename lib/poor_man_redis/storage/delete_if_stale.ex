@@ -22,6 +22,6 @@ defmodule PoorManRedis.Storage.DeleteIfStale do
   end
 
   defp inform_websocket(key) do
-    Endpoint.broadcast("key:#{key}", "was deleted after expiration", %{})
+    Endpoint.broadcast("key:#{key}", "Was deleted after expiration", %{})
   end
 end
