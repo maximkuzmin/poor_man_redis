@@ -16,8 +16,6 @@ defmodule PoorManRedis.DataCase do
 
   use ExUnit.CaseTemplate
 
-  alias Ecto.Adapters.SQL.Sandbox
-
   using do
     quote do
       alias PoorManRedis.Repo
@@ -30,13 +28,7 @@ defmodule PoorManRedis.DataCase do
     end
   end
 
-  setup tags do
-    :ok = Sandbox.checkout(PoorManRedis.Repo)
-
-    unless tags[:async] do
-      Sandbox.mode(PoorManRedis.Repo, {:shared, self()})
-    end
-
+  setup do
     :ok
   end
 

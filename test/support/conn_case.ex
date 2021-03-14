@@ -15,8 +15,6 @@ defmodule PoorManRedisWeb.ConnCase do
   this option is not recommended for other databases.
   """
 
-  alias Ecto.Adapters.SQL.Sandbox
-
   use ExUnit.CaseTemplate
 
   using do
@@ -32,13 +30,7 @@ defmodule PoorManRedisWeb.ConnCase do
     end
   end
 
-  setup tags do
-    :ok = Sandbox.checkout(PoorManRedis.Repo)
-
-    unless tags[:async] do
-      Sandbox.mode(PoorManRedis.Repo, {:shared, self()})
-    end
-
+  setup do
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

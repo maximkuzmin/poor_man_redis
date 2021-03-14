@@ -1,14 +1,6 @@
 use Mix.Config
 
 # Configure your database
-config :poor_man_redis, PoorManRedis.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "poor_man_redis_dev",
-  hostname: "localhost",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
-
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #

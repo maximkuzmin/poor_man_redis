@@ -10,7 +10,7 @@ defmodule PoorManRedisWeb.Endpoint do
     signing_salt: "+kpUUbYi"
   ]
 
-  socket "/socket", PoorManRedisWeb.UserSocket,
+  socket "/storage_socket", PoorManRedisWeb.StorageSocket,
     websocket: true,
     longpoll: false
 

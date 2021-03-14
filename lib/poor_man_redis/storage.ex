@@ -31,7 +31,8 @@ defmodule PoorManRedis.Storage do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
-  @spec put(key :: String.t(), value :: any(), timeout :: integer() | :infinity) :: :ok
+  @spec put(key :: String.t(), value :: any(), timeout :: integer() | :infinity) ::
+          :ok | {:error, String.t()}
   def put(key, value, timeout \\ :infinity)
       when (is_integer(timeout) and timeout > 0) or
              timeout == :infinity do

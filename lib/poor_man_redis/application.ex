@@ -8,13 +8,8 @@ defmodule PoorManRedis.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
-      PoorManRedis.Repo,
-      # Start the endpoint when the application starts
       PoorManRedisWeb.Endpoint,
       PoorManRedis.Storage
-      # Starts a worker by calling: PoorManRedis.Worker.start_link(arg)
-      # {PoorManRedis.Worker, arg},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
