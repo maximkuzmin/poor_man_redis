@@ -5,6 +5,9 @@ defmodule PoorManRedis.Storage do
   """
 
   use GenServer
+
+  alias PoorManRedis.Storage.DeleteIfStale
+
   @table_name :storage_table
 
   if Mix.env() == :test do
@@ -53,7 +56,7 @@ defmodule PoorManRedis.Storage do
 
   @spec delete_if_stale(key :: String.t()) :: :ok
   def delete_if_stale(key) do
-    GenServer.cast(__MODULE__, {:delete_if_stale, key})
+    GenServer.cast(__MODULE__, {:delete_if_stale, key, self()})
   end
 
   @impl GenServer
@@ -69,30 +72,34 @@ defmodule PoorManRedis.Storage do
     {:noreply, table_reference}
   end
 
-  def handle_cast({:delete_if_stale, key}, table_reference) do
-    :ets.lookup(table_reference, key)
-    |> case do
-      [] ->
-        :noop
+  def handle_cast({:delete_if_stale, key, caller_pid}, table_reference) do
+    result =
+      :ets.lookup(table_reference, key)
+      |> case do
+        [] ->
+          :noop
 
-      # somebody updated ttl with infinity while ttl_cleaner was sleeping
-      [{^key, _value, :infinity}] ->
-        :noop
+        # somebody updated ttl with infinity while ttl_cleaner was sleeping
+        [{^key, _value, :infinity}] ->
+          :noop
 
-      # check that it's really expired
-      [{^key, _value, %NaiveDateTime{} = expires_in}] ->
-        NaiveDateTime.utc_now()
-        |> NaiveDateTime.compare(expires_in)
-        |> case do
-          # it is time
-          result when result in [:gt, :eq] ->
-            :ets.delete(table_reference, key)
+        # check that it's really expired
+        [{^key, _value, %NaiveDateTime{} = expires_in}] ->
+          NaiveDateTime.utc_now()
+          |> NaiveDateTime.compare(expires_in)
+          |> case do
+            # it is time
+            result when result in [:gt, :eq] ->
+              :ets.delete(table_reference, key)
+              :deleted
 
-          # not now, expires_in was updated, apparently
-          :lt ->
-            :noop
-        end
-    end
+            # not now, expires_in was updated, apparently
+            :lt ->
+              :noop
+          end
+      end
+
+    send(caller_pid, result)
 
     {:noreply, table_reference}
   end
@@ -144,7 +151,7 @@ defmodule PoorManRedis.Storage do
       :timer.seconds(timeout_in_seconds)
       |> :timer.sleep()
 
-      __MODULE__.delete_if_stale(key)
+      DeleteIfStale.call(key)
     end)
   end
 end
