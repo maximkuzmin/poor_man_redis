@@ -26,6 +26,7 @@ defmodule PoorManRedis.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import PoorManRedis.DataCase
+      import PoorManRedis.Test.Common
     end
   end
 
@@ -39,6 +40,7 @@ defmodule PoorManRedis.DataCase do
     :ok
   end
 
+  @spec errors_on(Ecto.Changeset.t()) :: %{optional(atom) => [binary | map]}
   @doc """
   A helper that transforms changeset errors into a map of messages.
 

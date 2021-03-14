@@ -29,8 +29,16 @@ defmodule PoorManRedis.Storage do
   end
 
   @spec put(key :: String.t(), value :: any(), timeout :: integer() | :infinity) :: :ok
-  def put(key, value, timeout \\ :infinity) when is_integer(timeout) or timeout == :infinity do
+  def put(key, value, timeout \\ :infinity)
+      when (is_integer(timeout) and timeout > 0) or
+             timeout == :infinity do
     GenServer.cast(__MODULE__, {:put, key, value, timeout})
+  end
+
+  # clause for bad type of timeout
+  def put(_key, _value, timeout) do
+    {:error,
+     "timeout should be Integer and positive amount of seconds, got #{inspect(timeout)} instead"}
   end
 
   @spec get(key :: String.t()) :: %{value: any(), expires_in: integer() | :infinity} | nil

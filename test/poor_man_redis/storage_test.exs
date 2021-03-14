@@ -70,6 +70,4 @@ defmodule PoorManRedis.StorageTest do
       assert(:ok = Described.delete(weird_key))
     end
   end
-
-  def generate_random_string, do: Ecto.UUID.generate()
 end

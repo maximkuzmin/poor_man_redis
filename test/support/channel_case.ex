@@ -24,6 +24,8 @@ defmodule PoorManRedisWeb.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
+      import PoorManRedis.Test.Common
+
       # The default endpoint for testing
       @endpoint PoorManRedisWeb.Endpoint
     end

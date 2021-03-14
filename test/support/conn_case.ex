@@ -25,6 +25,8 @@ defmodule PoorManRedisWeb.ConnCase do
       use Phoenix.ConnTest
       alias PoorManRedisWeb.Router.Helpers, as: Routes
 
+      import PoorManRedis.Test.Common
+
       # The default endpoint for testing
       @endpoint PoorManRedisWeb.Endpoint
     end
