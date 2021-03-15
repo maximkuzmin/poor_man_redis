@@ -35,11 +35,12 @@ docker-compose up
 
 ## After deployment
 On your localhost:4000 you'll have an app with such endpoints:
-`PUT http://localhost:4000/storage/:key` - create/update record. Requires parameter "value" (supports strings, maps, lists, integers and floats) and has optional parameter "ttl", that accepts only positive integers.
 
-`DELETE http://localhost:4000/storage/:key` deletes record from storage
+* `PUT http://localhost:4000/storage/:key` - create/update record. Requires parameter "value" (supports strings, maps, lists, integers and floats) and has optional parameter "ttl", that accepts only positive integers.
 
-`GET http://localhost:4000/storage/:key` replies with either null or json {value: value, expires_in: amount_in_seconds}
+* `DELETE http://localhost:4000/storage/:key` deletes record from storage
+
+* `GET http://localhost:4000/storage/:key` replies with either null or json {value: value, expires_in: amount_in_seconds}
 
 
 ## How to connect to websocket:
